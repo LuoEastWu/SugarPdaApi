@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6A79C396-12C0-4576-BC27-5B660AEC40A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CusInfo.cs" />
+    <Compile Include="EJETable\CusInfo.cs" />
+    <Compile Include="EJETable\ApiLog.cs" />
+    <Compile Include="EJETable\AppConFig.cs" />
+    <Compile Include="EJETable\app_config.cs" />
+    <Compile Include="EJETable\Area.cs" />
+    <Compile Include="EJETable\aviationBag.cs" />
+    <Compile Include="EJETable\aviationStateImport.cs" />
+    <Compile Include="EJETable\bindingAviationNO.cs" />
+    <Compile Include="EJETable\CFHMPring.cs" />
+    <Compile Include="EJETable\CFHMPring_log.cs" />
+    <Compile Include="EJETable\clearanceNumber.cs" />
+    <Compile Include="EJETable\EDB_Order.cs" />
+    <Compile Include="EJETable\finance.cs" />
+    <Compile Include="EJETable\finance_type.cs" />
+    <Compile Include="EJETable\Forwarder.cs" />
+    <Compile Include="EJETable\Forwarder_number.cs" />
+    <Compile Include="EJETable\GoodsCatalog.cs" />
+    <Compile Include="EJETable\HmTrack.cs" />
+    <Compile Include="EJETable\log_billcodeGoodsType.cs" />
+    <Compile Include="EJETable\LongFee.cs" />
+    <Compile Include="EJETable\Money_Exchange.cs" />
+    <Compile Include="EJETable\Money_Log.cs" />
+    <Compile Include="EJETable\OrderCHAviation.cs" />
+    <Compile Include="EJETable\PDARole.cs" />
+    <Compile Include="EJETable\PDA_menu.cs" />
+    <Compile Include="EJETable\pic.cs" />
+    <Compile Include="EJETable\pmw_address.cs" />
+    <Compile Include="EJETable\pmw_admin.cs" />
+    <Compile Include="EJETable\pmw_admingroup.cs" />
+    <Compile Include="EJETable\pmw_air.cs" />
+    <Compile Include="EJETable\pmw_AirReturn.cs" />
+    <Compile Include="EJETable\pmw_AriPack.cs" />
+    <Compile Include="EJETable\pmw_AriPack_bar.cs" />
+    <Compile Include="EJETable\pmw_aviation.cs" />
+    <Compile Include="EJETable\pmw_billcode.cs" />
+    <Compile Include="EJETable\pmw_billcode_delete_log.cs" />
+    <Compile Include="EJETable\pmw_billcode_log.cs" />
+    <Compile Include="EJETable\pmw_bill_tips.cs" />
+    <Compile Include="EJETable\pmw_car.cs" />
+    <Compile Include="EJETable\pmw_cascadedata.cs" />
+    <Compile Include="EJETable\pmw_clearance.cs" />
+    <Compile Include="EJETable\pmw_config.cs" />
+    <Compile Include="EJETable\pmw_confirm_weight.cs" />
+    <Compile Include="EJETable\pmw_confirm_weight_log.cs" />
+    <Compile Include="EJETable\pmw_country.cs" />
+    <Compile Include="EJETable\pmw_CustomerData.cs" />
+    <Compile Include="EJETable\pmw_declaration.cs" />
+    <Compile Include="EJETable\pmw_failedlogin.cs" />
+    <Compile Include="EJETable\pmw_goods.cs" />
+    <Compile Include="EJETable\pmw_house.cs" />
+    <Compile Include="EJETable\pmw_integral_detail.cs" />
+    <Compile Include="EJETable\pmw_kd_com.cs" />
+    <Compile Include="EJETable\pmw_lost_billcode.cs" />
+    <Compile Include="EJETable\pmw_member.cs" />
+    <Compile Include="EJETable\Pmw_MemberDiscount.cs" />
+    <Compile Include="EJETable\Pmw_MemberLVDiscount.cs" />
+    <Compile Include="EJETable\pmw_member_deletelog.cs" />
+    <Compile Include="EJETable\pmw_order.cs" />
+    <Compile Include="EJETable\pmw_order_log.cs" />
+    <Compile Include="EJETable\pmw_order_subcontract.cs" />
+    <Compile Include="EJETable\pmw_PeerDeliverBill.cs" />
+    <Compile Include="EJETable\pmw_PeerGoods.cs" />
+    <Compile Include="EJETable\pmw_PeerGoods_log.cs" />
+    <Compile Include="EJETable\pmw_pree.cs" />
+    <Compile Include="EJETable\pmw_Print.cs" />
+    <Compile Include="EJETable\pmw_region.cs" />
+    <Compile Include="EJETable\pmw_salesReturn.cs" />
+    <Compile Include="EJETable\pmw_taobaoAudit.cs" />
+    <Compile Include="EJETable\pmw_TaoBaoBaby.cs" />
+    <Compile Include="EJETable\pmw_timeBar.cs" />
+    <Compile Include="EJETable\pmw_track.cs" />
+    <Compile Include="EJETable\pmw_track_car.cs" />
+    <Compile Include="EJETable\pmw_track_fj.cs" />
+    <Compile Include="EJETable\pmw_transfer.cs" />
+    <Compile Include="EJETable\pmw_type_price.cs" />
+    <Compile Include="EJETable\pmw_usergroup.cs" />
+    <Compile Include="EJETable\pmw_wavehouse.cs" />
+    <Compile Include="EJETable\pmw_weight_detail.cs" />
+    <Compile Include="EJETable\pmw_ztd_track.cs" />
+    <Compile Include="EJETable\price.cs" />
+    <Compile Include="EJETable\price_Log.cs" />
+    <Compile Include="EJETable\PrintConfig.cs" />
+    <Compile Include="EJETable\PushMessage.cs" />
+    <Compile Include="EJETable\qingguanState_import.cs" />
+    <Compile Include="EJETable\QuestionType.cs" />
+    <Compile Include="EJETable\rechargeSheet.cs" />
+    <Compile Include="EJETable\Table_assing_task.cs" />
+    <Compile Include="EJETable\Table_Email.cs" />
+    <Compile Include="EJETable\Table_sign.cs" />
+    <Compile Include="EJETable\Table_sms.cs" />
+    <Compile Include="EJETable\Table_ztd.cs" />
+    <Compile Include="EJETable\tab_filter.cs" />
+    <Compile Include="EJETable\tab_goods.cs" />
+    <Compile Include="EJETable\tab_inplace.cs" />
+    <Compile Include="EJETable\tab_kd_jd.cs" />
+    <Compile Include="EJETable\tab_menu.cs" />
+    <Compile Include="EJETable\tab_qs.cs" />
+    <Compile Include="EJETable\tab_Question.cs" />
+    <Compile Include="EJETable\Tab_role.cs" />
+    <Compile Include="EJETable\TaoBaoInfo.cs" />
+    <Compile Include="EJETable\TaoBaoLevel.cs" />
+    <Compile Include="EJETable\test.cs" />
+    <Compile Include="EJETable\View_ba.cs" />
+    <Compile Include="EJETable\View_ForwarderName.cs" />
+    <Compile Include="EJETable\View_memeber_integral.cs" />
+    <Compile Include="EJETable\View_order_amount.cs" />
+    <Compile Include="EJETable\View_place.cs" />
+    <Compile Include="EJETable\virtual_house.cs" />
+    <Compile Include="EJETable\volume.cs" />
+    <Compile Include="GeneralReturns.cs" />
+    <Compile Include="JPushMode.cs" />
+    <Compile Include="ModelLogin.cs" />
+    <Compile Include="Mode\DataMode.cs" />
+    <Compile Include="Mode\ModeAttribute.cs" />
+    <Compile Include="Mode\PubMode.cs" />
+    <Compile Include="Mode\RequestMode.cs" />
+    <Compile Include="Mode\ResponseMode.cs" />
+    <Compile Include="M_AbnormalPicking.cs" />
+    <Compile Include="M_AbnormalPickingList.cs" />
+    <Compile Include="M_CheckBillcodeInfo.cs" />
+    <Compile Include="M_CheckOrderInfo.cs" />
+    <Compile Include="M_Forwarder.cs" />
+    <Compile Include="M_GetVosionNo.cs" />
+    <Compile Include="M_inplace.cs" />
+    <Compile Include="M_IStask.cs" />
+    <Compile Include="M_KD_comInfo.cs" />
+    <Compile Include="M_KD_jd.cs" />
+    <Compile Include="M_NumberOffShelf.cs" />
+    <Compile Include="M_OffShelf.cs" />
+    <Compile Include="M_PeerInfo.cs" />
+    <Compile Include="M_Picking.cs" />
+    <Compile Include="M_PickingStop.cs" />
+    <Compile Include="M_Print.cs" />
+    <Compile Include="M_PushMessage.cs" />
+    <Compile Include="M_ShopList.cs" />
+    <Compile Include="M_wavehouse.cs" />
+    <Compile Include="M_ztPriceList.cs" />
+    <Compile Include="M_ZTsendGoods.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="M_ZTPutaway.cs" />
+    <Compile Include="TestPost.cs" />
+    <Compile Include="VosionNo\Version.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SqlSugar\SqlSugar.csproj">
+      <Project>{489bb790-226c-4fad-8d1e-51d72a7ff8e5}</Project>
+      <Name>SqlSugar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

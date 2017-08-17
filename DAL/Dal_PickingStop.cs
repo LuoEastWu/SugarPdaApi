@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using EJETable;
+using SqlSugar;
+namespace DAL
+{
+    public class Dal_PickingStop
+    {
+        /// <summary>
+        /// 终止拣货
+        /// </summary>
+        /// <param name="out_barCode"></param>
+        /// <param name="scam_emp"></param>
+        /// <returns></returns>
+        public DbResult<bool> StopPicking(string out_barCode, string scam_emp) 
+        {
+           return Common.Config.StartSqlSugar<DbResult<bool>>((db) => 
+            {
+                return db.Ado.UseTran(() =>
+                {
+                    db.Updateable<pmw_order>(new pmw_order
+                    {
+                        Is_Operator = true,
+                        Operator = scam_emp,
+                        OperatorTime = DateTime.Now,
+                        Abnormal = true,
+                        is_task = 0,
+                        taskName = string.Empty
+                    })
+                    .Where(a => a.order_code == out_barCode);
+                    db.Updateable<pmw_billcode>(new pmw_billcode
+                    {
+                        is_outplace = 0,
+                        outplace_emp = string.Empty,
+                        outplace_time = null
+                    })
+                    .Where(a => a.order_code == out_barCode);
+                });
+            });
+         
+        }
+    }
+}
