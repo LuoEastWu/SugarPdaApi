@@ -54,6 +54,7 @@
     <Compile Include="Dal_KD_comInfo.cs" />
     <Compile Include="Dal_KD_jd.cs" />
     <Compile Include="Dal_NumberOffShelf.cs" />
+    <Compile Include="Dal_PeerDeliverBill.cs" />
     <Compile Include="Dal_PeerInfo.cs" />
     <Compile Include="Dal_Picking.cs" />
     <Compile Include="Dal_PickingStop.cs" />

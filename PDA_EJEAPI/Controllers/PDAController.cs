@@ -231,6 +231,16 @@ namespace PDA_EJEAPI.Controllers
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="S"></param>
+        /// <returns></returns>
+         [ReturnClass(null, "同行交单")]
+        private Model.GeneralReturns PeerDeliverBill(Model.M_PeerDeliverBill.Request S) 
+        {
+            return new BLL.Bll_PeerDeliverBill().PeerDeliverBill(S);
+        }
 
         /// <summary>
         /// 推送消息给客服

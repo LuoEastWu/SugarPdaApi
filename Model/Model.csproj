@@ -172,6 +172,7 @@
     <Compile Include="M_KD_jd.cs" />
     <Compile Include="M_NumberOffShelf.cs" />
     <Compile Include="M_OffShelf.cs" />
+    <Compile Include="M_PeerDeliverBill.cs" />
     <Compile Include="M_PeerInfo.cs" />
     <Compile Include="M_Picking.cs" />
     <Compile Include="M_PickingStop.cs" />

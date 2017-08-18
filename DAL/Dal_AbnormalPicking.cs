@@ -24,13 +24,14 @@ namespace DAL
                              JoinType.Left,
                              a.order_code==b.order_code
                          })
-                         .Where((a, b) => SqlFunc.IIF(a.Abnormal == true, 1, 0) == 1 && b.wavehouse == site)
-                         .GroupBy(a => a.order_code)
+                         .Where((a, b) => SqlFunc.IIF(a.Abnormal == true, 1, 0) == 1&&SqlFunc.IIF(SqlFunc.IsNullToInt(a.is_outplace)==0,0,1)==0 )
+                         .Where((a,b)=>SqlFunc.IIF(SqlFunc.IsNullToInt(b.is_outplace)==0,0,1)==0&& b.wavehouse == site)
+                         .GroupBy(a => a.id)
                          .GroupBy(a => a.Operator)
                          .Select<Model.M_AbnormalPicking.Return>((a, b) => new Model.M_AbnormalPicking.Return
                          {
                              AbnormalEmp = a.Operator,
-                             billcode = a.order_code
+                             billcode = a.id.ToString()
                          }).ToList();
             });
                          

@@ -59,6 +59,7 @@
     <Compile Include="Bll_KD_comInfo.cs" />
     <Compile Include="Bll_KD_jd.cs" />
     <Compile Include="Bll_NumberOffShelf.cs" />
+    <Compile Include="Bll_PeerDeliverBill.cs" />
     <Compile Include="Bll_PeerInfo.cs" />
     <Compile Include="Bll_Picking.cs" />
     <Compile Include="Bll_PickingStop.cs" />

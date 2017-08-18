@@ -13,8 +13,13 @@ namespace DAL
         {
             return Common.Config.StartSqlSugar<List<Model.M_AbnormalPickingList.Return>>((db) =>
             {
-                return db.Queryable<pmw_billcode>()
-                          .Where(a => a.order_code == out_barcode && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 0)
+                return db.Queryable<pmw_billcode, pmw_order>((a, b) =>new object[]
+                {
+                    JoinType.Left,
+                    a.order_code==b.order_code
+                })
+                          .Where((a,b)=>b.id==SqlFunc.ToInt64(out_barcode))
+                          .Where(a =>SqlFunc.IIF(SqlFunc.ToInt32(a.is_outplace) == 0, 0, 1) == 0)
                           .Select<Model.M_AbnormalPickingList.Return>(a => new Model.M_AbnormalPickingList.Return
                           {
                               kd_billcode = a.kd_billcode,

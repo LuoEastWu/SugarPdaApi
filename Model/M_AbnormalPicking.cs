@@ -7,7 +7,7 @@ namespace Model
 {
     public class M_AbnormalPicking
     {
-        public List<Return> ReturnList { get; set; }
+        public List<Return> AbnormalPickingListReturn { get; set; }
         public class Return
         {
             /// <summary>

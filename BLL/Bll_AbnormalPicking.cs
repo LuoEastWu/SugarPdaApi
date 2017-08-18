@@ -16,10 +16,10 @@ namespace BLL
                 return genRet;
             }
             Model.M_AbnormalPicking abnPic = new Model.M_AbnormalPicking();
-            abnPic.ReturnList = new DAL.Dal_AbnormalPicking().AbnormalPickingList(S.site);
-            if (abnPic.ReturnList.Count > 0)
+            abnPic.AbnormalPickingListReturn = new DAL.Dal_AbnormalPicking().AbnormalPickingList(S.site);
+            if (abnPic.AbnormalPickingListReturn.Count > 0)
             {
-                foreach (var A in abnPic.ReturnList)
+                foreach (var A in abnPic.AbnormalPickingListReturn)
                 {
                     A.site = S.site;
                     A.Operator = S.Operator;
