@@ -19,8 +19,8 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_order>()
-                          .Where(a => a.order_code == out_barcode && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 1)
-                          .Any();
+                         .Any(a => a.order_code == out_barcode && SqlFunc.IsNullToInt(a.is_outplace) == 1);
+                         
             });
 
         }
@@ -34,8 +34,8 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db)=>
             {
                 return db.Queryable<pmw_billcode>()
-                                .Where(a => a.order_code == out_barcode && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 0)
-                                .Any();
+                         .Any(a => a.order_code == out_barcode && SqlFunc.IsNullToInt(a.is_outplace) == 0);
+                               
             });
                                 
         }

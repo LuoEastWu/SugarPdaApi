@@ -20,8 +20,8 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_country>()
-                                              .Where(a => SqlFunc.IIF(a.country_id == countryID, countryID, 0) == countryID)
-                                              .Any();
+                         .Any(a => SqlFunc.IsNullToInt(a.country_id) == countryID);
+                         
             });
         }
 
@@ -39,8 +39,8 @@ namespace DAL
             return Common.Config.StartSqlSugar<pmw_order>((db) =>
             {
                 return db.Queryable<pmw_order>()
-                                              .Where(a => SqlFunc.IIF(a.is_task == 1, 1, 0) == 1 && a.taskName == S.Operator)
-                                              .First();
+                         .Where(a => SqlFunc.IsNullToInt(a.is_task) == 1 && a.taskName == S.Operator)
+                         .First();
             });
         }
 
@@ -58,11 +58,13 @@ namespace DAL
                                                         {
                                                             JoinType.Left,
                                                             a.order_code==b.order_code,
+                                                            JoinType.Left,
                                                             b.stock_area==c.wavehouse_place_name,
+                                                            JoinType.Left,
                                                             a.member_id==d.id
                                                         })
-                                              .Where((a, b, c, d) => SqlFunc.IIF(a.DoubleCheck == 1, 1, 0) == 1 && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 0 && SqlFunc.IIF(a.Abnormal == true, 1, 0) == 0 && SqlFunc.IIF(a.is_task == 1, 1, 0) == 0 && SqlFunc.IIF(a.country_id == country_id, country_id, 0) == country_id)
-                                              .Where((a, b, c, d) => SqlFunc.IIF(b.is_outplace == 1, 1, 0) == 0 && b.wavehouse == site)
+                                              .Where((a, b, c, d) => SqlFunc.IsNullToInt(a.DoubleCheck) == 1&& SqlFunc.IsNullToInt(a.is_outplace)== 0 && SqlFunc.IsNullToInt(a.Abnormal)== 0 && SqlFunc.IsNullToInt(a.is_task)== 0 && SqlFunc.IsNullToInt(a.country_id)== country_id)
+                                              .Where((a, b, c, d) => SqlFunc.IsNullToInt(b.is_outplace) == 0 && b.wavehouse == site)
                                               .Where((a, b, c, d) => c.wavehouse_bigarea_name == areaCode)
                                               .First();
             });
@@ -85,9 +87,9 @@ namespace DAL
                                               JoinType.Left,
                                               a.order_code==b.order_code
                                           })
-                               .Where((a, b) => a.id == orderID && SqlFunc.IIF(a.DoubleCheck == 1, 1, 0) == 1 && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 1)
-                               .Where((a, b) => SqlFunc.IIF(b.is_outplace == 1, 1, 0) == 0)
-                               .Any();
+                         .Where((a, b) => a.id == orderID && SqlFunc.IsNullToInt(a.DoubleCheck) == 1 && SqlFunc.IsNullToInt(a.is_outplace) == 1)
+                         .Where((a, b) => SqlFunc.IsNullToInt(b.is_outplace) == 0)
+                         .Any();
             });
 
 
@@ -118,13 +120,12 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_billcode, pmw_order>((a, b) => new object[]
-                                                                   {
-                                                                       JoinType.Left,
-                                                                       a.order_code==b.order_code
-                                                                   })
-                                .Where((a, b) => SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 0)
-                                .Where((a, b) => b.id == orderID)
-                                .Any();
+                         {
+                          JoinType.Left,a.order_code==b.order_code
+                         })
+                         .Where((a, b) => SqlFunc.IsNullToInt(a.is_outplace) == 0)
+                         .Where((a, b) => b.id == orderID)
+                         .Any();
             });
 
         }
@@ -142,12 +143,11 @@ namespace DAL
             return Common.Config.StartSqlSugar<pmw_order>((db) =>
             {
                 return db.Queryable<pmw_order, pmw_billcode>((a, b) => new object[]
-                                                            {
-                                                                JoinType.Left,
-                                                                a.order_code==b.order_code
-                                                            })
-                         .Where((a, b) => SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 0 && SqlFunc.IIF(a.DoubleCheck == 1, 1, 0) == 1 && a.id == orderID)
-                         .Where((a, b) => SqlFunc.IIF(b.is_outplace == 1, 1, 0) == 0 && b.wavehouse == site)
+                         {
+                             JoinType.Left,a.order_code==b.order_code
+                         })
+                         .Where((a, b) => SqlFunc.IsNullToInt(a.is_outplace) == 0 && SqlFunc.IsNullToInt(a.DoubleCheck) == 1 && a.id == orderID)
+                         .Where((a, b) => SqlFunc.IsNullToInt(b.is_outplace) == 0 && b.wavehouse == site)
                          .OrderBy(a => a.order_time, OrderByType.Asc)
                          .First();
             });
@@ -163,47 +163,52 @@ namespace DAL
         /// <param name="S"></param>
         /// <param name="O"></param>
         /// <returns></returns>
-        public DbResult<List<Model.M_OffShelf.OffShelfRuturn>> PickingTask(string operatorName, string site, EJETable.pmw_order O)
+        public List<Model.M_OffShelf.OffShelfRuturn> PickingTask(string operatorName, string site, EJETable.pmw_order O)
         {
 
-            return Common.Config.StartSqlSugar<DbResult<List<Model.M_OffShelf.OffShelfRuturn>>>((db) => 
+            return Common.Config.StartSqlSugar<List<Model.M_OffShelf.OffShelfRuturn>>((db) =>
             {
-                return db.Ado.UseTran<List<Model.M_OffShelf.OffShelfRuturn>>(() =>
-                {
-                    db.Updateable<pmw_order>(new pmw_order
-                    {
-                        is_task = 1,
-                        taskName = operatorName
-                    })
-                      .Where(a => a.id == O.id && a.order_code == O.order_code);
-
-                    return db.Queryable<pmw_order, pmw_billcode>((a, b) => new object[]
+                return db.Queryable<pmw_order, pmw_billcode>((a, b) => new object[]
                             {
                                 JoinType.Left,
                                 a.order_code==b.order_code
                             })
-                             .Where((a, b) => a.order_code == O.order_code && SqlFunc.IIF(a.is_task == 1, 1, 0) == 0 && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 0 && b.wavehouse == site && SqlFunc.IIF(b.is_outplace == 1, 1, 0) == 0)
-                             .OrderBy((a, b) => b.stock_area)
-                             .Select((a, b) => new Model.M_OffShelf.OffShelfRuturn
-                             {
-                                 OrderId = a.id,
-                                 out_barcode = a.order_code,
-                                 username = a.cus,
-                                 kd_billcode = b.kd_billcode,
-                                 stock_area = b.stock_area,
-                                 dd_weight2 = b.dd_weight.ToString(),
-                                 guige = b.dd_size,
-                                 is_inplace = b.is_inplace.ToString(),
-                                 number = b.number.ToString()
-                             }).ToList();
-                    throw new Exception("获取拣货任务失败");
-
-                });
+                     .Where((a, b) => a.order_code == O.order_code && SqlFunc.IsNullToInt(a.is_task) == 0 && SqlFunc.IsNullToInt(a.is_outplace)== 0 && b.wavehouse == site &&SqlFunc.IsNullToInt(b.is_outplace) == 0)
+                     .OrderBy((a, b) => b.stock_area)
+                     .Select((a, b) => new Model.M_OffShelf.OffShelfRuturn
+                     {
+                         OrderId = a.id,
+                         out_barcode = a.order_code,
+                         username = a.cus,
+                         kd_billcode = b.kd_billcode,
+                         stock_area = b.stock_area,
+                         dd_weight2 = b.dd_weight.ToString(),
+                         guige = b.dd_size,
+                         is_inplace = b.is_inplace.ToString(),
+                         number = b.number.ToString()
+                     }).ToList();
             });
-           
+
         }
 
+        /// <summary>
+        /// 释放拣货任务
+        /// </summary>
+        /// <param name="Id"></param>
+        public bool Release_task(long Id, string operatorName)
+        {
+            return Common.Config.StartSqlSugar<bool>((db) =>
+             {
+                 return db.Updateable<pmw_order>(new
+                        {
+                            is_task = 0,
+                            taskName = operatorName
+                        })
+                       .Where(a => a.id == Id)
+                       .ExecuteCommand() > 0;
+             });
 
+        }
 
     }
 }

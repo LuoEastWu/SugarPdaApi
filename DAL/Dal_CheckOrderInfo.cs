@@ -52,7 +52,7 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_billcode>()
-                                .Any(a => a.kd_billcode == billCode && SqlFunc.IIF(a.is_lock == 1, 1, 0) == 1);
+                                .Any(a => a.kd_billcode == billCode && SqlFunc.IsNullToInt(a.is_lock) == 1);
             });
 
 
@@ -67,7 +67,7 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_order>()
-                                .Any(a => a.order_code == order_code && SqlFunc.IIF(a.DoubleCheck == 1, 1, 0) == 0);
+                         .Any(a => a.order_code == order_code && SqlFunc.IsNullToInt(a.DoubleCheck) == 0);
             });
 
         }
@@ -81,7 +81,7 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_billcode>()
-                                .Any(a => SqlFunc.IIF(a.is_packed == 1, 1, 0) == 0 && SqlFunc.IsNullOrEmpty(a.packed_billcode));
+                                .Any(a => SqlFunc.IsNullToInt(a.is_packed) == 0 && SqlFunc.IsNullOrEmpty(a.packed_billcode));
             });
 
         }
@@ -100,7 +100,7 @@ namespace DAL
                              JoinType.Left,
                              a.order_code==b.order_code
                          })
-                           .Where(a => a.order_code == order_code && SqlFunc.IIF(a.is_packed == 1, 1, 0) == 0 && (SqlFunc.IIF(a.is_lock == 0, 0, 1) == 0 || SqlFunc.IIF(a.is_lock == 2, 2, 1) == 2) && SqlFunc.IIF(a.is_apply == 1, 1, 0) == 1 && SqlFunc.IIF(a.lost_flag == 1, 1, 0) == 0 && SqlFunc.IIF(a.confirm_order == 1, 1, 0) == 1 && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 1)
+                           .Where(a => a.order_code == order_code && SqlFunc.IsNullToInt(a.is_packed) == 0 && (SqlFunc.IsNullToInt(a.is_lock) == 0 || SqlFunc.IsNullToInt(a.is_lock) == 2) && SqlFunc.IsNullToInt(a.is_apply) == 1 && SqlFunc.IsNullToInt(a.lost_flag) == 0 && SqlFunc.IsNullToInt(a.confirm_order) == 1 && SqlFunc.IsNullToInt(a.is_outplace) == 1)
                            .Select<Model.M_CheckOrderInfo.Return>((a, b) => new Model.M_CheckOrderInfo.Return
                            {
                                kd_billcode = a.kd_billcode,

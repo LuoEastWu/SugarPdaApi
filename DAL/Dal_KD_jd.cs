@@ -30,7 +30,7 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<tab_kd_jd>()
-                                .Any(a => a.billcode == billcode);
+                         .Any(a => a.billcode == billcode);
             });
 
 

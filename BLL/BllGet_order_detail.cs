@@ -10,6 +10,7 @@ namespace BLL
     {
         public Model.GeneralReturns GetOrderDetail(Model.M_OffShelf.OffShelfRequest S)
         {
+           
             Model.GeneralReturns genRet = new Model.GeneralReturns();
             if (string.IsNullOrEmpty(S.areaCode) || String.IsNullOrEmpty(S.Operator) || String.IsNullOrEmpty(S.site))
             {
@@ -51,7 +52,7 @@ namespace BLL
                     }
                 }
             }
-            if (orderInfo != null && string.IsNullOrEmpty(orderInfo.order_code))
+            if (orderInfo != null && !string.IsNullOrEmpty(orderInfo.order_code))
             {
                 genRet = GetOrderDetailTask(orderInfo, S.Operator, S.site);
             }
@@ -73,7 +74,7 @@ namespace BLL
             foreach (var areaCode in areaCodeArr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 orderInfo = new DAL.DalGet_order_detail().RegionalPicking(country_id, site, areaCode);
-                if (orderInfo != null && string.IsNullOrEmpty(orderInfo.order_code))
+                if (orderInfo != null && !string.IsNullOrEmpty(orderInfo.order_code))
                 {
                     break;
                 }
@@ -89,16 +90,23 @@ namespace BLL
         /// <returns></returns>
         private Model.GeneralReturns GetOrderDetailTask(EJETable.pmw_order orderInfo, string operatorName, string site)
         {
-
+            Model.GeneralReturns gr = new Model.GeneralReturns();
             Model.M_OffShelf.OffShelfListRuturn offSheListRet = new Model.M_OffShelf.OffShelfListRuturn();
-            DbResult<List<Model.M_OffShelf.OffShelfRuturn>> dbRes = new DAL.DalGet_order_detail().PickingTask(operatorName, site, orderInfo);
-            offSheListRet.OffShelfRuturn = dbRes.Data;
-            return new Model.GeneralReturns()
-             {
-                 ReturnJson = Common.DataHandling.ObjToJson(offSheListRet),
-                 State = dbRes.IsSuccess,
-                 MsgText = dbRes.Messaage
-             };
+           offSheListRet.OffShelfRuturn = new DAL.DalGet_order_detail().PickingTask(operatorName, site, orderInfo);
+           
+            if (offSheListRet.OffShelfRuturn.Count > 0)
+            {
+                new DAL.DalGet_order_detail().Release_task(orderInfo.id, operatorName);
+                gr.ReturnJson = Common.DataHandling.ObjToJson(offSheListRet);
+                gr.State = true;
+            }
+            else
+            {
+                
+                gr.MsgText = "无法获取" + orderInfo.id + "！请重试";
+            }
+            return gr;
+
 
         }
     }

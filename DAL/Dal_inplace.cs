@@ -23,7 +23,7 @@ namespace DAL
                                     JoinType.Left,
                                     a.kd_billcode==b.kd_billcode
                                 })
-                    .Where((a, b) => SqlFunc.IIF(a.is_dd == 1, 1, 0) == 1 && a.kd_billcode == S.billcode && SqlFunc.IsNullOrEmpty(b.kd_billcode))
+                    .Where((a, b) => SqlFunc.IsNullToInt(a.is_dd)== 1 && a.kd_billcode == S.billcode && SqlFunc.IsNullOrEmpty(b.kd_billcode))
                     .Any();
             });
            
@@ -39,7 +39,7 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db)=>
             {
                 return db.Queryable<pmw_billcode>()
-                                              .Where(a => a.kd_billcode == S.billcode && SqlFunc.IIF(a.is_senttohk == 1, 1, 0) == 1)
+                                              .Where(a => a.kd_billcode == S.billcode && SqlFunc.IsNullToInt (a.is_senttohk) == 1)
                                               .Any();
             });
                 
@@ -101,7 +101,7 @@ namespace DAL
                         inplace_time = DateTime.Now,
                         inplace_emp = S.emp
                     })
-                    .Where(a => a.kd_billcode == S.billcode && SqlFunc.IIF(a.is_dd == 1, 1, 0) == 1);
+                    .Where(a => a.kd_billcode == S.billcode && SqlFunc.IsNullToInt(a.is_dd) == 1);
                     throw new Exception("失败");
                 });
             });

@@ -9,8 +9,13 @@ namespace BLL
     {
         public Model.GeneralReturns kd_jd(Model.M_KD_jd.Request S) 
         {
+            Common.SystemLog.WriteSystemLog("快递交单", Common.DataHandling.ObjToJson(S));
             Model.GeneralReturns genRet = new Model.GeneralReturns();
-
+            if (string.IsNullOrEmpty(S.billcode) || string.IsNullOrEmpty(S.KD_com) || string.IsNullOrEmpty(S.scan_emp) || string.IsNullOrEmpty(S.scan_site)) 
+            {
+                genRet.MsgText = "缺少必要参数";
+                return genRet;
+            }
             if (new DAL.Dal_KD_jd().IsHandBill(S.billcode))
             {
                 genRet.MsgText = "已交单";

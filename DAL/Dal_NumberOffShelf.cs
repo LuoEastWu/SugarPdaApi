@@ -35,8 +35,8 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db)=>
             {
                 return db.Queryable<pmw_billcode>()
-                                .Where(a => a.kd_billcode == kd_billcode && SqlFunc.IIF(a.is_outplace == 1, 1, 0) == 1)
-                                .Any();
+                         .Any(a => a.kd_billcode == kd_billcode && SqlFunc.IsNullToInt(a.is_outplace) == 1);
+                              
             });
                                
         }
@@ -51,14 +51,14 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db)=>
             {
                 return db.Updateable<pmw_billcode>(new pmw_billcode
-                {
-                    is_outplace = 1,
-                    outplace_time = DateTime.Now,
-                    outplace_emp = scan_emp,
-                    is_lock = 0
-                })
-                                 .Where(a => a.kd_billcode == kd_billcode && SqlFunc.IIF(a.is_inplace == 1, 1, 0) == 1)
-                                 .ExecuteCommand() > 0;
+                         {
+                             is_outplace = 1,
+                             outplace_time = DateTime.Now,
+                             outplace_emp = scan_emp,
+                             is_lock = 0
+                         })
+                         .Where(a => a.kd_billcode == kd_billcode && SqlFunc.IsNullToInt(a.is_inplace) == 1)
+                         .ExecuteCommand() > 0;
             });
                                
         }

@@ -24,6 +24,7 @@ namespace PDA_EJEAPI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            Common.SystemLog.LogFileName = Server.MapPath("~/") + @"ApiLog.txt";
             //Common.Config.ConnectionString = string.Format("server={0},{1};uid={2};pwd={3};database={4}", 
             //                                               ConfigurationManager.AppSettings["SqlAddress"],
             //                                               ConfigurationManager.AppSettings["SqlPort"],

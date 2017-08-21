@@ -196,7 +196,7 @@ namespace DAL
             return db.Ado.UseTran<string>(() =>
               {
                   var forderInfo = db.Queryable<Forwarder_number>()
-                                    .Where(a => a.ForwarderID == id && SqlFunc.IIF(a.is_Use == 1, 1, 0) == 0)
+                                    .Where(a => a.ForwarderID == id && SqlFunc.IsNullToInt(a.is_Use) == 0)
                                     .OrderBy(a => a.num)
                                     .First();
                   db.Updateable<Forwarder_number>(new Forwarder_number
@@ -217,7 +217,7 @@ namespace DAL
            return Common.Config.StartSqlSugar<int>((db) => 
             {
                 return db.Queryable<Forwarder_number>()
-                         .Where(a => SqlFunc.IIF(SqlFunc.IsNullToInt64(a.is_Use) == 0, 0, 1) == 0 && a.ForwarderID == ForwardingID)
+                         .Where(a => SqlFunc.IsNullToInt(a.is_Use) == 0 && a.ForwarderID == ForwardingID)
                          .Count();
             });
         }
@@ -274,7 +274,7 @@ namespace DAL
                         printID = forwarderInfo.id,
                         is_Big = S.is_Big
                     })
-                    .Where(a => SqlFunc.ContainsArray(billCoderList.ToArray(), a.kd_billcode) && a.order_code == orderInfo.order_code && (SqlFunc.IIF(a.is_lock == 1, 1, 0) == 0 || SqlFunc.IIF(a.is_lock == 2, 2, 1) == 2));
+                    .Where(a => SqlFunc.ContainsArray(billCoderList.ToArray(), a.kd_billcode) && a.order_code == orderInfo.order_code && (SqlFunc.IsNullToInt(a.is_lock) == 0 || SqlFunc.IsNullToInt(a.is_lock) == 2));
 
                     db.Updateable<pmw_order>(new pmw_order
                     {
