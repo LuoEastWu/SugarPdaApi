@@ -59,22 +59,25 @@ namespace DAL
                         next_site = S.next_site,
                         scan_site = S.scan_site,
                         packno = S.packno
-                    });
-                    db.Updateable<pmw_billcode>(new pmw_billcode
+                    })
+                    .ExecuteCommand();
+                    db.Updateable<pmw_billcode>(new 
                     {
                         is_senttohk = 1,
                         senttohk_time = DateTime.Now,
                         senttohk_emp = S.scan_emp
                     })
-                    .Where(a => a.packed_billcode == S.out_barcode);
-                    db.Updateable<pmw_order>(new pmw_order
+                    .Where(a => a.packed_billcode == S.out_barcode)
+                    .ExecuteCommand();
+                    db.Updateable<pmw_order>(new 
                     {
 
                         is_senttohk = 1,
                         senttohk_time = DateTime.Now,
                         senttohk_emp = S.scan_emp
                     })
-                    .Where(a => a.sent_kd_billcode == S.out_barcode);
+                    .Where(a => a.sent_kd_billcode == S.out_barcode)
+                    .ExecuteCommand();
                 });
             });
          

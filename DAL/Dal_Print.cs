@@ -199,11 +199,12 @@ namespace DAL
                                     .Where(a => a.ForwarderID == id && SqlFunc.IsNullToInt(a.is_Use) == 0)
                                     .OrderBy(a => a.num)
                                     .First();
-                  db.Updateable<Forwarder_number>(new Forwarder_number
+                  db.Updateable<Forwarder_number>(new 
                   {
                       is_Use = 1
                   })
-                  .Where(a => a.ForwarderID == id && a.num == forderInfo.num);
+                  .Where(a => a.ForwarderID == id && a.num == forderInfo.num)
+                  .ExecuteCommand();
                   return forderInfo.num;
               });
         }
@@ -263,7 +264,7 @@ namespace DAL
                         scan_emp = S.operateMan
                     });
 
-                    db.Updateable<pmw_billcode>(new pmw_billcode()
+                    db.Updateable<pmw_billcode>(new 
                     {
                         is_packed = 1,
                         packed_time = DateTime.Now,
@@ -274,9 +275,10 @@ namespace DAL
                         printID = forwarderInfo.id,
                         is_Big = S.is_Big
                     })
-                    .Where(a => SqlFunc.ContainsArray(billCoderList.ToArray(), a.kd_billcode) && a.order_code == orderInfo.order_code && (SqlFunc.IsNullToInt(a.is_lock) == 0 || SqlFunc.IsNullToInt(a.is_lock) == 2));
+                    .Where(a => SqlFunc.ContainsArray(billCoderList.ToArray(), a.kd_billcode) && a.order_code == orderInfo.order_code && (SqlFunc.IsNullToInt(a.is_lock) == 0 || SqlFunc.IsNullToInt(a.is_lock) == 2))
+                    .ExecuteCommand();
 
-                    db.Updateable<pmw_order>(new pmw_order
+                    db.Updateable<pmw_order>(new 
                     {
                         is_sented = 1,
                         sent_emp = S.operateMan,
@@ -284,7 +286,8 @@ namespace DAL
                         sent_kd_billcode = orderSentBillCode,
                         sent_kd_com = orderSentCompany
                     })
-                    .Where(a => a.id == orderInfo.id);
+                    .Where(a => a.id == orderInfo.id)
+                    .ExecuteCommand();
 
                     db.Insertable<CFHMPring>(new CFHMPring
                     {

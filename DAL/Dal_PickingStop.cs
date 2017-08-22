@@ -20,7 +20,7 @@ namespace DAL
             {
                 return db.Ado.UseTran(() =>
                 {
-                    db.Updateable<pmw_order>(new pmw_order
+                    db.Updateable<pmw_order>(new 
                     {
                         Is_Operator = true,
                         Operator = scam_emp,
@@ -29,14 +29,16 @@ namespace DAL
                         is_task = 0,
                         taskName = string.Empty
                     })
-                    .Where(a => a.order_code == out_barCode);
-                    db.Updateable<pmw_billcode>(new pmw_billcode
+                    .Where(a => a.order_code == out_barCode)
+                    .ExecuteCommand();
+                    db.Updateable<pmw_billcode>(new 
                     {
                         is_outplace = 0,
                         outplace_emp = string.Empty,
-                        outplace_time = null
+                        outplace_time = ""
                     })
-                    .Where(a => a.order_code == out_barCode);
+                    .Where(a => a.order_code == out_barCode)
+                    .ExecuteCommand();
                 });
             });
          

@@ -73,21 +73,22 @@ namespace DAL
             {
                 db.Ado.UseTran(() =>
                 {
-                    db.Updateable<pmw_order>(new pmw_order
+                    db.Updateable<pmw_order>(new
                     {
                         is_task = 0,
                         taskName = string.Empty
                     })
-                    .Where(a => a.order_code == out_barcode);
-                    db.Updateable<pmw_billcode>(new pmw_billcode
+                    .Where(a => a.order_code == out_barcode)
+                    .ExecuteCommand();
+                    db.Updateable<pmw_billcode>(new
                     {
                         is_outplace = 0,
                         outplace_emp = string.Empty,
-                        outplace_time = null,
+                        outplace_time = "",
 
                     })
-                    .Where(a => a.order_code == out_barcode);
-                    throw new Exception(new Exception().Message);
+                    .Where(a => a.order_code == out_barcode)
+                    .ExecuteCommand();
                 });
             });
            

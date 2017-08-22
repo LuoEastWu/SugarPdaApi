@@ -22,12 +22,14 @@ namespace DAL
                         Inspection = 0,
                         ErrorType = S.ErrorType,
                         Operation_emp = S.Operation_emp
-                    });
-                    db.Updateable<pmw_billcode>(new pmw_billcode
+                    })
+                    .ExecuteCommand();
+                    db.Updateable<pmw_billcode>(new 
                     {
                         is_lock = 1
                     })
-                    .Where(a => a.kd_billcode == S.billcode);
+                    .Where(a => a.kd_billcode == S.billcode)
+                    .ExecuteCommand();
                 });
             });
           
