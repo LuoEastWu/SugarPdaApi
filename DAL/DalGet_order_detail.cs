@@ -21,7 +21,7 @@ namespace DAL
             {
                 return db.Queryable<pmw_country>()
                          .Any(a => SqlFunc.IsNullToInt(a.country_id) == countryID);
-                         
+
             });
         }
 
@@ -55,18 +55,15 @@ namespace DAL
             return Common.Config.StartSqlSugar<pmw_order>((db) =>
             {
                 return db.Queryable<pmw_order, pmw_billcode, pmw_wavehouse, pmw_member>((a, b, c, d) => new object[]
-                                                        {
-                                                            JoinType.Left,
-                                                            a.order_code==b.order_code,
-                                                            JoinType.Left,
-                                                            b.stock_area==c.wavehouse_place_name,
-                                                            JoinType.Left,
-                                                            a.member_id==d.id
-                                                        })
-                                              .Where((a, b, c, d) => SqlFunc.IsNullToInt(a.DoubleCheck) == 1&& SqlFunc.IsNullToInt(a.is_outplace)== 0 && SqlFunc.IsNullToInt(a.Abnormal)== 0 && SqlFunc.IsNullToInt(a.is_task)== 0 && SqlFunc.IsNullToInt(a.country_id)== country_id)
-                                              .Where((a, b, c, d) => SqlFunc.IsNullToInt(b.is_outplace) == 0 && b.wavehouse == site)
-                                              .Where((a, b, c, d) => c.wavehouse_bigarea_name == areaCode)
-                                              .First();
+                       {
+                           JoinType.Left,a.order_code==b.order_code,
+                           JoinType.Left,b.stock_area==c.wavehouse_place_name,
+                           JoinType.Left,a.member_id==d.id
+                       })
+                       .Where((a, b, c, d) => SqlFunc.IsNullToInt(a.DoubleCheck) == 1 && SqlFunc.IsNullToInt(a.is_outplace) == 0 && SqlFunc.IsNullToInt(a.Abnormal) == 0 && SqlFunc.IsNullToInt(a.is_task) == 0 && SqlFunc.IsNullToInt(a.country_id) == country_id)
+                       .Where((a, b, c, d) => SqlFunc.IsNullToInt(b.is_outplace) == 0&&SqlFunc.IsNullToInt(b.is_inplace)==1 && b.wavehouse == site)
+                       .Where((a, b, c, d) => c.wavehouse_bigarea_name == areaCode)
+                       .First();
             });
 
         }
@@ -169,11 +166,11 @@ namespace DAL
             return Common.Config.StartSqlSugar<List<Model.M_OffShelf.OffShelfRuturn>>((db) =>
             {
                 return db.Queryable<pmw_order, pmw_billcode>((a, b) => new object[]
-                            {
-                                JoinType.Left,
-                                a.order_code==b.order_code
-                            })
-                     .Where((a, b) => a.order_code == O.order_code && SqlFunc.IsNullToInt(a.is_task) == 0 && SqlFunc.IsNullToInt(a.is_outplace)== 0 && b.wavehouse == site &&SqlFunc.IsNullToInt(b.is_outplace) == 0)
+                       {
+                           JoinType.Left,
+                           a.order_code==b.order_code
+                       })
+                     .Where((a, b) => a.order_code == O.order_code && SqlFunc.IsNullToInt(a.is_task) == 1 && a.taskName == operatorName && SqlFunc.IsNullToInt(a.is_outplace) == 0 && b.wavehouse == site && SqlFunc.IsNullToInt(b.is_outplace) == 0)
                      .OrderBy((a, b) => b.stock_area)
                      .Select((a, b) => new Model.M_OffShelf.OffShelfRuturn
                      {
@@ -192,16 +189,16 @@ namespace DAL
         }
 
         /// <summary>
-        /// 释放拣货任务
+        /// 修改拣货状态
         /// </summary>
         /// <param name="Id"></param>
-        public bool Release_task(long Id, string operatorName)
+        public bool Release_task(long Id, string operatorName, int taskType)
         {
             return Common.Config.StartSqlSugar<bool>((db) =>
              {
                  return db.Updateable<pmw_order>(new
                         {
-                            is_task = 0,
+                            is_task = taskType,
                             taskName = operatorName
                         })
                        .Where(a => a.id == Id)

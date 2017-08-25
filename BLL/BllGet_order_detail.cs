@@ -42,7 +42,6 @@ namespace BLL
                     if (new DAL.DalGet_order_detail().OrderOutBillCodeNotOut(S.OrderID.ObjToInt()))
                     {
                         new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 0);
-
                     }
                     orderInfo = new DAL.DalGet_order_detail().OrderIDGetTask(S.OrderID.ObjToInt(), S.site);
                     if ((orderInfo == null || string.IsNullOrEmpty(orderInfo.order_code)) && !new DAL.DalGet_order_detail().IsOutBillCode(S.OrderID.ObjToInt()))
@@ -54,9 +53,9 @@ namespace BLL
             }
             if (orderInfo != null && !string.IsNullOrEmpty(orderInfo.order_code))
             {
+                new DAL.DalGet_order_detail().Release_task(orderInfo.id,S.Operator, 1);
                 genRet = GetOrderDetailTask(orderInfo, S.Operator, S.site);
             }
-
             return genRet;
         }
 
@@ -96,13 +95,12 @@ namespace BLL
            
             if (offSheListRet.OffShelfRuturn.Count > 0)
             {
-                new DAL.DalGet_order_detail().Release_task(orderInfo.id, operatorName);
                 gr.ReturnJson = Common.DataHandling.ObjToJson(offSheListRet);
                 gr.State = true;
             }
             else
             {
-                
+                new DAL.DalGet_order_detail().Release_task(orderInfo.id, string.Empty, 0);
                 gr.MsgText = "无法获取" + orderInfo.id + "！请重试";
             }
             return gr;

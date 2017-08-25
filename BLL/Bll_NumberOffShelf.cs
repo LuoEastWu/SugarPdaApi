@@ -23,10 +23,7 @@ namespace BLL
                  }
                  else 
                  {
-                     if (!new DAL.Dal_NumberOffShelf().ExecuteBillCodeOut(S.kd_billcode, S.scan_emp)) 
-                     {
-                         genRet.MsgText = "下架失败";
-                     }
+                     genRet.MsgText =(genRet.State=new DAL.Dal_NumberOffShelf().ExecuteBillCodeOut(S.kd_billcode, S.scan_emp))?"": "下架失败";
                  }
              }
              return genRet;
