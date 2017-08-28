@@ -238,7 +238,7 @@ namespace DAL
         /// <param name="S"></param>
         /// <param name="printNo"></param>
         /// <returns></returns>
-        public DbResult<bool> Print(pmw_order orderInfo, string orderSentBillCode, string orderSentCompany, string recipients, pmw_house houserInfo, TaoBaoInfo tbInfo, Forwarder forwarderInfo, List<string> billCoderList, string goodsName, Model.M_Print.Request S, string printNo, double weightBillcode)
+        public DbResult<bool> Print(pmw_order orderInfo, string orderSentBillCode, string orderSentCompany, string recipients, pmw_house houserInfo, TaoBaoInfo tbInfo, Forwarder forwarderInfo, string[] billCoderList, string goodsName, Model.M_Print.Request S, string printNo, double weightBillcode)
         {
             return Common.Config.StartSqlSugar<DbResult<bool>>((db) =>
             {
@@ -253,7 +253,7 @@ namespace DAL
                         operateTime = DateTime.Now,
                         WaybillNo = printNo,
                         z_weight = SqlFunc.ToDecimal(weightBillcode)
-                    });
+                    }).ExecuteCommand();
                     db.Insertable<pmw_track>(new pmw_track
                     {
                         billcode = printNo,
@@ -262,7 +262,7 @@ namespace DAL
                         scan_memo = "拣货完毕,快件已拣货完毕,正在打包",
                         scan_site = houserInfo.house_name,
                         scan_emp = S.operateMan
-                    });
+                    }).ExecuteCommand();
 
                     db.Updateable<pmw_billcode>(new 
                     {
@@ -275,7 +275,7 @@ namespace DAL
                         printID = forwarderInfo.id,
                         is_Big = S.is_Big
                     })
-                    .Where(a => SqlFunc.ContainsArray(billCoderList.ToArray(), a.kd_billcode) && a.order_code == orderInfo.order_code && (SqlFunc.IsNullToInt(a.is_lock) == 0 || SqlFunc.IsNullToInt(a.is_lock) == 2))
+                    .Where(a => SqlFunc.ContainsArray(billCoderList, a.kd_billcode) && a.order_code == orderInfo.order_code && (SqlFunc.IsNullToInt(a.is_lock) == 0 || SqlFunc.IsNullToInt(a.is_lock) == 2))
                     .ExecuteCommand();
 
                     db.Updateable<pmw_order>(new 
@@ -300,7 +300,7 @@ namespace DAL
                         recipientsAdd = orderInfo.address,
                         recipientsPhone = orderInfo.mobile,
                         recipientsIDCard = orderInfo.RecipientCode,
-                        TurnNumber = billCoderList.Count,
+                        TurnNumber = billCoderList.Length,
                         Order_Notes = orderInfo.order_memo,
                         consolidator = tbInfo.Name,
                         deliveryCom = forwarderInfo.ForwarderName,

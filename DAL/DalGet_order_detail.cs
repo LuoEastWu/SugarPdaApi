@@ -80,13 +80,13 @@ namespace DAL
             return Common.Config.StartSqlSugar<bool>((db) =>
             {
                 return db.Queryable<pmw_order, pmw_billcode>((a, b) => new object[]
-                                          {
-                                              JoinType.Left,
-                                              a.order_code==b.order_code
-                                          })
-                         .Where((a, b) => a.id == orderID && SqlFunc.IsNullToInt(a.DoubleCheck) == 1 && SqlFunc.IsNullToInt(a.is_outplace) == 1)
-                         .Where((a, b) => SqlFunc.IsNullToInt(b.is_outplace) == 0)
-                         .Any();
+                       {
+                           JoinType.Left,
+                           a.order_code==b.order_code
+                       })
+                       .Where((a, b) => a.id == orderID && SqlFunc.IsNullToInt(a.DoubleCheck) == 1 && SqlFunc.IsNullToInt(a.is_outplace) == 1)
+                       .Where((a, b) => SqlFunc.IsNullToInt(b.is_outplace) == 0)
+                       .Any();
             });
 
 
@@ -108,7 +108,7 @@ namespace DAL
 
         }
         /// <summary>
-        /// 快递没有下架
+        /// 快递全部下架
         /// </summary>
         /// <param name="orderID"></param>
         /// <returns></returns>
@@ -120,7 +120,7 @@ namespace DAL
                          {
                           JoinType.Left,a.order_code==b.order_code
                          })
-                         .Where((a, b) => SqlFunc.IsNullToInt(a.is_outplace) == 0)
+                         .Where((a, b) => SqlFunc.IsNullToInt(a.is_outplace) == 1)
                          .Where((a, b) => b.id == orderID)
                          .Any();
             });

@@ -44,11 +44,18 @@ namespace BLL
                         new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 0);
                     }
                     orderInfo = new DAL.DalGet_order_detail().OrderIDGetTask(S.OrderID.ObjToInt(), S.site);
-                    if ((orderInfo == null || string.IsNullOrEmpty(orderInfo.order_code)) && !new DAL.DalGet_order_detail().IsOutBillCode(S.OrderID.ObjToInt()))
+                    if ((orderInfo == null || string.IsNullOrEmpty(orderInfo.order_code)))
                     {
-                        new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 1);
-                        genRet.MsgText = "该订单已经下架";
-                    }
+                        if (new DAL.DalGet_order_detail().IsOutBillCode(S.OrderID.ObjToInt()))
+                        {
+                            new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 1);
+                            genRet.MsgText = "该订单已经下架";
+                        }
+                        else 
+                        {
+                            genRet.MsgText = "无法获取订单信息";
+                        }
+                    } 
                 }
             }
             if (orderInfo != null && !string.IsNullOrEmpty(orderInfo.order_code))

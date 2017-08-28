@@ -17,14 +17,19 @@ namespace BLL
              }
              if (new DAL.Dal_NumberOffShelf().IsThereTask(S.kd_billcode, S.out_barcode))
              {
-                 if (new DAL.Dal_NumberOffShelf().IsBillcodeOut(S.kd_billcode)) 
+                 if (new DAL.Dal_NumberOffShelf().IsBillcodeOut(S.kd_billcode))
                  {
                      genRet.MsgText = "已下架";
                  }
-                 else 
+                 else
                  {
-                     genRet.MsgText =(genRet.State=new DAL.Dal_NumberOffShelf().ExecuteBillCodeOut(S.kd_billcode, S.scan_emp))?"": "下架失败";
+
+                     genRet.MsgText = (genRet.State = new DAL.Dal_NumberOffShelf().ExecuteBillCodeOut(S.kd_billcode, S.scan_emp)) ? "" : "下架失败";
                  }
+             }
+             else 
+             {
+                 genRet.MsgText = "请输入对应的快递单号";
              }
              return genRet;
          }
