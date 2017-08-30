@@ -184,6 +184,7 @@
     <Compile Include="M_ZTsendGoods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="M_ZTPutaway.cs" />
+    <Compile Include="SystemConfiguration.cs" />
     <Compile Include="TestPost.cs" />
     <Compile Include="VosionNo\Version.cs" />
   </ItemGroup>

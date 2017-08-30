@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EJETable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace BLL
         public Model.GeneralReturns Forwarder()
         {
             Model.GeneralReturns genRet = new Model.GeneralReturns();
-            Model.M_Forwarder der = new Model.M_Forwarder();
+            Model.M_Forwarder.Return der = new Model.M_Forwarder.Return();
+
+            Common.AppConfig deracf = Common.DataSetSerializer.DeCompress<Common.AppConfig>((byte[])new DAL.Dal_GetServerVal().GetServerVal().Value);
             der.ForwarderLiset = new DAL.Dal_Forwarder().Forwarder();
             if (der.ForwarderLiset.Count > 0)
             {

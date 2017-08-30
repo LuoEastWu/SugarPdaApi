@@ -59,7 +59,8 @@ namespace DAL
                     is_task = 0,//释放拣货任务
                     taskName = string.Empty
                 })
-                                .Where(a => a.order_code == out_barcode).ExecuteCommand() > 0;
+                .Where(a => a.order_code == out_barcode)
+                .ExecuteCommand() > 0;
             });
                                
         }

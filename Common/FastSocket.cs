@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Web.Script.Serialization;
+using System.Collections;
 
 namespace Common
 {
@@ -826,6 +827,11 @@ namespace Common
                 return default(T);
             }
         }
+      
+    
+    
+
+
         /// <summary>
         /// 将对象序列化为Byte[]
         /// </summary>

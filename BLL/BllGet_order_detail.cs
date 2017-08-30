@@ -10,17 +10,18 @@ namespace BLL
     {
         public Model.GeneralReturns GetOrderDetail(Model.M_OffShelf.OffShelfRequest S)
         {
-           
+
             Model.GeneralReturns genRet = new Model.GeneralReturns();
             if (string.IsNullOrEmpty(S.areaCode) || String.IsNullOrEmpty(S.Operator) || String.IsNullOrEmpty(S.site))
             {
                 genRet.MsgText = "拣货员工信息不完整，无法拣货";
                 return genRet;
             }
-            EJETable.pmw_order orderInfo = new DAL.DalGet_order_detail().IsPicking(S);
-            if (orderInfo == null)
+            EJETable.pmw_order orderInfo = new EJETable.pmw_order();
+            if (String.IsNullOrEmpty(S.OrderID))
             {
-                if (String.IsNullOrEmpty(S.OrderID))
+                orderInfo = new DAL.DalGet_order_detail().IsPicking(S);
+                if (orderInfo == null)
                 {
                     if (S.country_id == 0)
                     { genRet.MsgText = "员工没有所属国家ID"; }
@@ -37,30 +38,33 @@ namespace BLL
                         else { genRet.MsgText = "国家ID错误"; }
                     }
                 }
-                else
-                {
-                    if (new DAL.DalGet_order_detail().OrderOutBillCodeNotOut(S.OrderID.ObjToInt()))
-                    {
-                        new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 0);
-                    }
-                    orderInfo = new DAL.DalGet_order_detail().OrderIDGetTask(S.OrderID.ObjToInt(), S.site);
-                    if ((orderInfo == null || string.IsNullOrEmpty(orderInfo.order_code)))
-                    {
-                        if (new DAL.DalGet_order_detail().IsOutBillCode(S.OrderID.ObjToInt()))
-                        {
-                            new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 1);
-                            genRet.MsgText = "该订单已经下架";
-                        }
-                        else 
-                        {
-                            genRet.MsgText = "无法获取订单信息";
-                        }
-                    } 
-                }
+
             }
+            else
+            {
+                if (new DAL.DalGet_order_detail().OrderOutBillCodeNotOut(S.OrderID.ObjToInt()))
+                {
+                    new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 0);
+                }
+                orderInfo = new DAL.DalGet_order_detail().OrderIDGetTask(S.OrderID.ObjToInt(), S.site);
+                if ((orderInfo == null || string.IsNullOrEmpty(orderInfo.order_code)))
+                {
+                    if (new DAL.DalGet_order_detail().IsOutBillCode(S.OrderID.ObjToInt()))
+                    {
+                        new DAL.DalGet_order_detail().UpdateOrderNotOut(S.OrderID.ObjToInt(), 1);
+                        genRet.MsgText = "该订单已经下架";
+                    }
+                    else
+                    {
+                        genRet.MsgText = "无法获取订单信息";
+                    }
+                }
+
+            }
+
             if (orderInfo != null && !string.IsNullOrEmpty(orderInfo.order_code))
             {
-                new DAL.DalGet_order_detail().Release_task(orderInfo.id,S.Operator, 1);
+                new DAL.DalGet_order_detail().Release_task(orderInfo.id, S.Operator, 1);
                 genRet = GetOrderDetailTask(orderInfo, S.Operator, S.site);
             }
             return genRet;
@@ -98,8 +102,8 @@ namespace BLL
         {
             Model.GeneralReturns gr = new Model.GeneralReturns();
             Model.M_OffShelf.OffShelfListRuturn offSheListRet = new Model.M_OffShelf.OffShelfListRuturn();
-           offSheListRet.OffShelfRuturn = new DAL.DalGet_order_detail().PickingTask(operatorName, site, orderInfo);
-           
+            offSheListRet.OffShelfRuturn = new DAL.DalGet_order_detail().PickingTask(operatorName, site, orderInfo);
+
             if (offSheListRet.OffShelfRuturn.Count > 0)
             {
                 gr.ReturnJson = Common.DataHandling.ObjToJson(offSheListRet);

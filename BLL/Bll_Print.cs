@@ -150,7 +150,7 @@ namespace BLL
                       
                         string SignerCode=string.Empty, VersionCode=string.Empty,   addressCode=string.Empty;
                         PushDataEjs(recipients, S.express, billcodeWeight, strBuiGoodsName.ToString(), printNo.Data, houseInfo.house_name, orderInfo, houseInfo, memberInfo, ref SignerCode, ref VersionCode, ref addressCode, ref message);
-
+                        string ssss = string.Join(",", billcodeList.ToArray());
                         reqList.Add(new Model.M_Print.Return
                         {
                             WaybillNo = printNo.Data,

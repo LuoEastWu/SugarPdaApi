@@ -313,7 +313,7 @@ namespace PDA_EJEAPI.Controllers
         /// <param name="KeyMd5"></param>
         /// <returns></returns>
         [ReturnClass(null, "获取承运商")]
-        private Model.GeneralReturns Forwarder(Model.M_KD_comInfo.Request S)
+        private Model.GeneralReturns Forwarder(Model.M_Forwarder.Return S)
         {
 
             return new BLL.Bll_Forwarder().Forwarder();

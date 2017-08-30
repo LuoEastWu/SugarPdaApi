@@ -9,16 +9,18 @@ namespace DAL
 {
     public class Dal_Forwarder
     {
-        public List<Model.M_Forwarder.Return> Forwarder()
+        public new List<Model.M_Forwarder.Carrier> Forwarder()
         {
-            return Common.Config.StartSqlSugar<List<Model.M_Forwarder.Return>>((db) =>
+            return Common.Config.StartSqlSugar<List<Model.M_Forwarder.Carrier>>((db) =>
             {
+
                 return db.Queryable<Forwarder>()
-                                .Select<Model.M_Forwarder.Return>(a => new Model.M_Forwarder.Return
-                                {
-                                    ForwarderName = a.ForwarderName,
-                                    id = a.id.ToString()
-                                }).ToList();
+                         .Select<Model.M_Forwarder.Carrier>(a => new Model.M_Forwarder.Carrier
+                         {
+                             ForwarderName = a.ForwarderName,
+                             id = a.id.ToString()
+                         }).ToList();
+
             });
 
         }

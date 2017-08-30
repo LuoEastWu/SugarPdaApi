@@ -48,6 +48,7 @@
     <Compile Include="Dal_AbnormalPickingList.cs" />
     <Compile Include="Dal_CheckBillcodeInfo.cs" />
     <Compile Include="Dal_CheckOrderInfo.cs" />
+    <Compile Include="Dal_GetServerVal.cs" />
     <Compile Include="Dal_GetVosionNo.cs" />
     <Compile Include="Dal_inplace.cs" />
     <Compile Include="Dal_IStask.cs" />
