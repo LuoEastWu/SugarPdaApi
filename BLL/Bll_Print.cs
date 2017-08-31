@@ -26,7 +26,7 @@ namespace BLL
             {
                 List<Model.M_Print.Return> reqList = new List<Model.M_Print.Return>();
                 EJETable.pmw_order orderInfo = new DAL.Dal_Print().getOrderInfo(long.Parse(S.orderID));
-                int subcontractCount = orderInfo.subpackageNum < 1 ? 1 : int.Parse(orderInfo.subpackageNum.ToString());
+                int subcontractCount = orderInfo.subpackageNum < 1||orderInfo.subpackageNum==null ? 1 : int.Parse(orderInfo.subpackageNum.ToString());
 
                 for (int i = 1; i <= subcontractCount; i++)
                 {

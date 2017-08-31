@@ -315,7 +315,7 @@ namespace DAL
                         houseID = houserInfo.id,
                         houseName = houserInfo.house_name,
                         netWeight = SqlFunc.ToDecimal(weightBillcode)
-                    });
+                    }).ExecuteCommand();
                 });
             });
 

@@ -152,6 +152,7 @@
     <Compile Include="EJETable\View_place.cs" />
     <Compile Include="EJETable\virtual_house.cs" />
     <Compile Include="EJETable\volume.cs" />
+    <Compile Include="EJETable\WaybillRule.cs" />
     <Compile Include="GeneralReturns.cs" />
     <Compile Include="JPushMode.cs" />
     <Compile Include="ModelLogin.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="M_PushMessage.cs" />
     <Compile Include="M_ShopList.cs" />
     <Compile Include="M_wavehouse.cs" />
+    <Compile Include="M_WaybillRule.cs" />
     <Compile Include="M_ztPriceList.cs" />
     <Compile Include="M_ZTsendGoods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

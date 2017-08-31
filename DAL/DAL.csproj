@@ -64,6 +64,7 @@
     <Compile Include="Dal_PushMessage.cs" />
     <Compile Include="Dal_ShopList.cs" />
     <Compile Include="Dal_wavehouseList.cs" />
+    <Compile Include="Dal_WaybillRule.cs" />
     <Compile Include="Dal_ztPriceList.cs" />
     <Compile Include="Dal_ZTPutaway.cs" />
     <Compile Include="Dal_ZTsendGoods.cs" />
